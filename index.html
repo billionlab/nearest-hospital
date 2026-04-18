@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOUR NEAREST DOCTOR</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container">
+                <h1> YOUR NEAREST DOCTOR</h1>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#location">Location</a></li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <h2>Welcome to Our Practice</h2>
+            <p>Providing compassionate and comprehensive healthcare services.</p>
+            <a href="#contact" class="btn">Schedule an Appointment</a>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About DR. ISRAEL</h2>
+            <div class="about-content">
+                <img src="doctor.jpg" alt="Dr. Smith" class="doctor-img">
+                <div class="about-text">
+                    <p>Dr. Smith is a board-certified physician with over 15 years of experience in family medicine. He is dedicated to providing personalized care to patients of all ages.</p>
+                    <p>His approach combines traditional medicine with the latest advancements in healthcare technology to ensure the best outcomes for his patients.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <h2>Our Services</h2>
+            <div class="services-grid">
+                <div class="service">
+                    <h3>Primary Care</h3>
+                    <p>Comprehensive health check-ups, preventive care, and treatment for common illnesses.</p>
+                </div>
+                <div class="service">
+                    <h3>Chronic Disease Management</h3>
+                    <p>Ongoing care for conditions like diabetes, hypertension, and asthma.</p>
+                </div>
+                <div class="service">
+                    <h3>Minor Procedures</h3>
+                    <p>In-office procedures including vaccinations, wound care, and minor surgeries.</p>
+                </div>
+                <div class="service">
+                    <h3>Health Screenings</h3>
+                    <p>Routine screenings for cancer, heart disease, and other health conditions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p><strong>Address:</strong> 123 Medical Center Drive, City, State 12345</p>
+                    <p><strong>Phone:</strong> (555) 123-4567</p>
+                    <p><strong>Email:</strong> info@drsmithpractice.com</p>
+                    <p><strong>Hours:</strong> Monday-Friday 8:00 AM - 5:00 PM</p>
+                </div>
+                <form class="contact-form">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <input type="tel" placeholder="Your Phone">
+                    <textarea placeholder="Your Message" required></textarea>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="location" class="location">
+        <div class="container">
+            <h2>Find Nearest Hospital or Doctor</h2>
+            <p>Enter your location or use your current location to find nearby healthcare facilities.</p>
+            <div class="location-search">
+                <input type="text" id="location-input" placeholder="Enter your city or address">
+                <button id="current-location-btn" class="btn">Use Current Location</button>
+                <button id="search-btn" class="btn">Search</button>
+            </div>
+            <div id="map-container" style="display: none;">
+                <iframe id="map-iframe" width="100%" height="400" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Your Nearest Hospital or Doctor. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const locationInput = document.getElementById('location-input');
+            const currentLocationBtn = document.getElementById('current-location-btn');
+            const searchBtn = document.getElementById('search-btn');
+            const mapContainer = document.getElementById('map-container');
+            const mapIframe = document.getElementById('map-iframe');
+
+            currentLocationBtn.addEventListener('click', function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const query = `hospitals near ${lat},${lng}`;
+                        showMap(query);
+                    }, function(error) {
+                        alert('Unable to retrieve your location. Please enter your location manually.');
+                    });
+                } else {
+                    alert('Geolocation is not supported by this browser.');
+                }
+            });
+
+            searchBtn.addEventListener('click', function() {
+                const location = locationInput.value.trim();
+                if (location) {
+                    const query = `hospitals near ${location}`;
+                    showMap(query);
+                } else {
+                    alert('Please enter a location or use your current location.');
+                }
+            });
+
+            function showMap(query) {
+                const embedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+                mapIframe.src = embedUrl;
+                mapContainer.style.display = 'block';
+                mapContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    </script>
+</body>
+</html>
